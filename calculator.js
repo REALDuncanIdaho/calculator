@@ -59,10 +59,11 @@ document.getElementById("solve").addEventListener("click", function() {
         console.log(operator, "1st", firstNumber, "2nd", secondNumber);
         firstNumber = "";
         operator = "";
-        document.getElementById("displayValue").textContent = currentValue;
         console.log(operator, "1st", firstNumber, "2nd", secondNumber);
         continueValue = currentValue;
+        document.getElementById("displayValue").textContent = continueValue;
         clearCurrentValue();
+        console.log(operator, "1st", firstNumber, "2nd", secondNumber, "current", currentValue);
         
     }
 })
@@ -72,9 +73,8 @@ document.querySelectorAll(".math").forEach(function(element) {
     element.addEventListener("click", function() {
         //selects an operator for when "=" is selected, so can continue with currentValue
         if (firstNumber == "" && typeof continueValue === 'number') {
-            console.log(continueValue)
+            console.log("continueValue", continueValue)
             firstNumber = continueValue;
-            clearCurrentValue();
             lastOp = this.value;
             console.log(lastOp)
         } //defines secondNumber and completes math
@@ -83,6 +83,8 @@ document.querySelectorAll(".math").forEach(function(element) {
             operator = lastOp;
             operate(firstNumber, secondNumber);
             console.log(operator, "1st", firstNumber, "2nd", secondNumber, "current", currentValue);
+            firstNumber = currentValue;
+            document.getElementById("displayValue").textContent = currentValue;
             firstNumber = currentValue;
             secondNumber = "";
             operator = this.value;
