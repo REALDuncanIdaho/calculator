@@ -2,6 +2,8 @@ let firstNumber;
 let secondNumber;
 let operator;
 let currentValue = "";
+let lastOp;
+let continueValue;
 
 function add(a, b) {
     return (Number(a) + Number(b));
@@ -33,17 +35,15 @@ function operate(a, b) {
 
 function clearCurrentValue() {
     currentValue = "";
-    document.getElementById("displayValue").textContent = currentValue;
-
 }
 
 //defines how the clear button functions
 document.getElementById("clear").addEventListener("click", function() {
     firstNumber = null;
     secondNumber = "";
-    currentValue = "";
     operator = "";
     clearCurrentValue();
+    document.getElementById("displayValue").textContent = currentValue;
     console.log(firstNumber, secondNumber)
 })
 
@@ -54,13 +54,15 @@ document.getElementById("solve").addEventListener("click", function() {
     } else if (firstNumber != null) {
         secondNumber = currentValue;
         currentValue = "";
+        operator = lastOp;
         operate(firstNumber, secondNumber);
         console.log(operator, "1st", firstNumber, "2nd", secondNumber);
-        firstNumber = currentValue;
-        secondNumber = "";
-        operator = null;
+        firstNumber = "";
+        operator = "";
         document.getElementById("displayValue").textContent = currentValue;
         console.log(operator, "1st", firstNumber, "2nd", secondNumber);
+        continueValue = currentValue;
+        clearCurrentValue();
         
     }
 })
@@ -68,17 +70,34 @@ document.getElementById("solve").addEventListener("click", function() {
 //define how operator buttons function
 document.querySelectorAll(".math").forEach(function(element) {
     element.addEventListener("click", function() {
-        operator = this.value;
-        if (firstNumber != null) {
+        //selects an operator for when "=" is selected, so can continue with currentValue
+        if (firstNumber == "" && typeof continueValue === 'number') {
+            console.log(continueValue)
+            firstNumber = continueValue;
+            clearCurrentValue();
+            lastOp = this.value;
+            console.log(lastOp)
+        } //defines secondNumber and completes math
+         else if (firstNumber != null) {
             secondNumber = currentValue;
-            currentValue = "";
+            operator = lastOp;
+            operate(firstNumber, secondNumber);
+            console.log(operator, "1st", firstNumber, "2nd", secondNumber, "current", currentValue);
+            firstNumber = currentValue;
+            secondNumber = "";
+            operator = this.value;
+            let pastValue = currentValue;
+            console.log(pastValue)
+            document.getElementById("displayValue").textContent = pastValue;
+            lastOp = operator;
             console.log(operator, "1st", firstNumber, "2nd", secondNumber);
-            document.getElementById("displayValue").textContent = currentValue;
-        } else {
+            clearCurrentValue();
+        } else { //defines firstNumber and sets operator
+            operator = this.value;
             firstNumber = currentValue;
             currentValue = "";
-            console.log(operator);
-            console.log("1st", firstNumber)
+            lastOp = operator;
+            console.log(lastOp, "1st", firstNumber)
             document.getElementById("displayValue").textContent = currentValue;
             };
     });
@@ -88,16 +107,7 @@ document.querySelectorAll(".math").forEach(function(element) {
 document.querySelectorAll(".digit").forEach(function(element) {
     element.addEventListener("click", function() {
         var buttonValue = this.value;
-        if (typeof firstNumber === 'number') {
-            firstNumber = null;
-            operator = null;
-            clearCurrentValue();
-            currentValue += Number(buttonValue);
-            console.log(typeof(firstNumber), firstNumber)
-        } else {
-            currentValue += buttonValue;
-        }
+        currentValue += buttonValue;
         document.getElementById("displayValue").textContent = Number(currentValue);
-    });
+    }); 
 });
-
