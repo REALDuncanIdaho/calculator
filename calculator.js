@@ -4,19 +4,19 @@ let operator;
 let currentValue = "";
 
 function add(a, b) {
-    return a + b
+    return (Number(a) + Number(b));
 };
 
 function subtract(a, b) {
-    return a - b
+    return (Number(a) - Number(b));
 };
 
 function multiply(a, b) {
-    return a * b
+    return (Number(a) * Number(b));
 };
 
 function divide(a, b) {
-    return a / b
+    return (Number(a) / Number(b));
 };
 
 function operate(a, b) {
@@ -31,24 +31,37 @@ function operate(a, b) {
     }
 };
 
+function clearCurrentValue() {
+    currentValue = "";
+    document.getElementById("displayValue").textContent = currentValue;
+
+}
+
 //defines how the clear button functions
 document.getElementById("clear").addEventListener("click", function() {
-    firstNumber = undefined;
+    firstNumber = null;
     secondNumber = "";
     currentValue = "";
     operator = "";
-    document.getElementById("displayValue").textContent = currentValue + "clear";
+    clearCurrentValue();
     console.log(firstNumber, secondNumber)
 })
 
 //defines how the '=' button functions
 document.getElementById("solve").addEventListener("click", function() {
-    if (firstNumber != undefined) {
+    if (secondNumber === null) {
+        return;
+    } else if (firstNumber != null) {
         secondNumber = currentValue;
         currentValue = "";
         operate(firstNumber, secondNumber);
-        console.log("1st", firstNumber, "2nd", secondNumber);
-        document.getElementById("displayValue").textContent = currentValue + "=";
+        console.log(operator, "1st", firstNumber, "2nd", secondNumber);
+        firstNumber = currentValue;
+        secondNumber = "";
+        operator = null;
+        document.getElementById("displayValue").textContent = currentValue;
+        console.log(operator, "1st", firstNumber, "2nd", secondNumber);
+        
     }
 })
 
@@ -56,17 +69,17 @@ document.getElementById("solve").addEventListener("click", function() {
 document.querySelectorAll(".math").forEach(function(element) {
     element.addEventListener("click", function() {
         operator = this.value;
-        if (firstNumber != undefined) {
+        if (firstNumber != null) {
             secondNumber = currentValue;
             currentValue = "";
-            console.log("1st", firstNumber, "2nd", secondNumber);
-            document.getElementById("displayValue").textContent = currentValue + "2nd math";
+            console.log(operator, "1st", firstNumber, "2nd", secondNumber);
+            document.getElementById("displayValue").textContent = currentValue;
         } else {
             firstNumber = currentValue;
             currentValue = "";
             console.log(operator);
             console.log("1st", firstNumber)
-            document.getElementById("displayValue").textContent = currentValue + "1st math";
+            document.getElementById("displayValue").textContent = currentValue;
             };
     });
 });
@@ -74,9 +87,17 @@ document.querySelectorAll(".math").forEach(function(element) {
 //defines how digit buttons function
 document.querySelectorAll(".digit").forEach(function(element) {
     element.addEventListener("click", function() {
-    var buttonValue = this.value;
-    currentValue +=buttonValue;
-    document.getElementById("displayValue").textContent = currentValue + "number"; //change buttonValue to totalValue after writing function
+        var buttonValue = this.value;
+        if (typeof firstNumber === 'number') {
+            firstNumber = null;
+            operator = null;
+            clearCurrentValue();
+            currentValue += Number(buttonValue);
+            console.log(typeof(firstNumber), firstNumber)
+        } else {
+            currentValue += buttonValue;
+        }
+        document.getElementById("displayValue").textContent = Number(currentValue);
     });
 });
 
