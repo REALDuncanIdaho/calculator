@@ -43,7 +43,7 @@ document.getElementById("clear").addEventListener("click", function() {
     secondNumber = "";
     operator = "";
     clearCurrentValue();
-    document.getElementById("displayValue").textContent = currentValue;
+    document.getElementById("displayValue").textContent = Number(currentValue).toFixed(2);
     console.log(firstNumber, secondNumber)
 })
 
@@ -61,7 +61,7 @@ document.getElementById("solve").addEventListener("click", function() {
         operator = "";
         console.log(operator, "1st", firstNumber, "2nd", secondNumber);
         continueValue = currentValue;
-        document.getElementById("displayValue").textContent = continueValue;
+        document.getElementById("displayValue").textContent = Number(continueValue).toFixed(2);
         clearCurrentValue();
         console.log(operator, "1st", firstNumber, "2nd", secondNumber, "current", currentValue);
         
@@ -84,13 +84,13 @@ document.querySelectorAll(".math").forEach(function(element) {
             operate(firstNumber, secondNumber);
             console.log(operator, "1st", firstNumber, "2nd", secondNumber, "current", currentValue);
             firstNumber = currentValue;
-            document.getElementById("displayValue").textContent = currentValue;
+            document.getElementById("displayValue").textContent = Number(currentValue).toFixed(2);
             firstNumber = currentValue;
             secondNumber = "";
             operator = this.value;
             let pastValue = currentValue;
             console.log(pastValue)
-            document.getElementById("displayValue").textContent = pastValue;
+            document.getElementById("displayValue").textContent = Number(pastValue).toFixed(2);
             lastOp = operator;
             console.log(operator, "1st", firstNumber, "2nd", secondNumber);
             clearCurrentValue();
@@ -100,7 +100,7 @@ document.querySelectorAll(".math").forEach(function(element) {
             currentValue = "";
             lastOp = operator;
             console.log(lastOp, "1st", firstNumber)
-            document.getElementById("displayValue").textContent = currentValue;
+            document.getElementById("displayValue").textContent = Number(currentValue).toFixed(2);
             };
     });
 });
@@ -110,6 +110,6 @@ document.querySelectorAll(".digit").forEach(function(element) {
     element.addEventListener("click", function() {
         var buttonValue = this.value;
         currentValue += buttonValue;
-        document.getElementById("displayValue").textContent = Number(currentValue);
+        document.getElementById("displayValue").textContent = Number(currentValue).toFixed(2);
     }); 
 });
